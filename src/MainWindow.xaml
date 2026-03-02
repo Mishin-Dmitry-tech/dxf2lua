@@ -1,0 +1,149 @@
+﻿<Window x:Class="DxfToLua.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="DXF to Lua Converter" Height="800" Width="1400"
+        WindowStartupLocation="CenterScreen">
+
+    <Grid Margin="10">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <!-- Верхняя панель с выбором файла и кнопкой обновления -->
+        <StackPanel Grid.Row="0" Orientation="Horizontal" Margin="0,0,0,10">
+            <Button x:Name="btnSelectFile" Content="Выбрать DXF файл" 
+                    Click="btnSelectFile_Click" Padding="10,5" Width="150"/>
+            <Button x:Name="btnRefresh" Content="Обновить" 
+                    Click="btnRefresh_Click" Padding="10,5" Width="100" Margin="10,0,0,0"
+                    IsEnabled="False"/>
+            <TextBlock x:Name="txtFileName" Text="Файл не выбран" 
+                       VerticalAlignment="Center" Margin="10,0,0,0" FontWeight="Bold"/>
+        </StackPanel>
+
+        <!-- Информационная панель -->
+        <Border Grid.Row="1" Background="#f0f0f0" Padding="10" Margin="0,0,0,10" 
+                BorderBrush="#ccc" BorderThickness="1">
+            <TextBlock x:Name="txtStats" TextWrapping="Wrap"/>
+        </Border>
+
+        <!-- Основная область с текстовыми полями, Splitter'ом и визуализацией -->
+        <Grid Grid.Row="2" x:Name="MainGrid">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="2*" MinWidth="300"/>
+                <!-- Левая панель (текст) -->
+                <ColumnDefinition Width="Auto"/>
+                <!-- Вертикальный Splitter -->
+                <ColumnDefinition Width="3*" MinWidth="400"/>
+                <!-- Правая панель (визуализация) -->
+            </Grid.ColumnDefinitions>
+
+            <!-- Левая панель с текстовыми полями -->
+            <Grid Grid.Column="0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="3*" MinHeight="100"/>
+                    <!-- Lua код -->
+                    <RowDefinition Height="Auto"/>
+                    <!-- Горизонтальный Splitter -->
+                    <RowDefinition Height="1*" MinHeight="50"/>
+                    <!-- Отчет -->
+                </Grid.RowDefinitions>
+
+                <!-- Lua код (верхнее поле) -->
+                <GroupBox Grid.Row="0" Header="Сгенерированный Lua код" Margin="0,0,5,0">
+                    <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
+                        <TextBox x:Name="txtLuaCode" 
+                                 TextWrapping="Wrap" 
+                                 AcceptsReturn="True"
+                                 FontFamily="Consolas"
+                                 FontSize="11"
+                                 IsReadOnly="True"
+                                 Background="#f8f8ff"
+                                 BorderThickness="0"
+                                 Padding="5"/>
+                    </ScrollViewer>
+                </GroupBox>
+
+                <!-- Горизонтальный Splitter -->
+                <GridSplitter Grid.Row="1" 
+                             Height="5" 
+                             HorizontalAlignment="Stretch"
+                             Background="#007acc"
+                             ResizeDirection="Rows"
+                             ShowsPreview="True"
+                             Margin="0,2,5,2"
+                             Cursor="SizeNS"/>
+
+                <!-- Отчет (нижнее поле) -->
+                <GroupBox Grid.Row="2" Header="Отчет о работе" Margin="0,0,5,0">
+                    <ScrollViewer VerticalScrollBarVisibility="Auto">
+                        <TextBox x:Name="txtReport" 
+                                 TextWrapping="Wrap" 
+                                 AcceptsReturn="True"
+                                 FontFamily="Consolas"
+                                 FontSize="11"
+                                 IsReadOnly="True"
+                                 Background="#f0f0f0"
+                                 BorderThickness="0"
+                                 Padding="5"/>
+                    </ScrollViewer>
+                </GroupBox>
+            </Grid>
+
+            <!-- Вертикальный Splitter -->
+            <GridSplitter Grid.Column="1" 
+                         Width="5" 
+                         VerticalAlignment="Stretch"
+                         HorizontalAlignment="Center"
+                         Background="#007acc"
+                         ResizeDirection="Columns"
+                         ShowsPreview="True"
+                         Margin="2,0,2,0"
+                         Cursor="SizeWE"/>
+
+            <!-- Правая панель с визуализацией контуров -->
+            <GroupBox Grid.Column="2" Header="Визуализация контуров" Margin="5,0,0,0">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+
+                    <!-- Viewbox для автоматического масштабирования с сохранением пропорций -->
+                    <Viewbox Grid.Row="0" 
+                             Stretch="Uniform" 
+                             StretchDirection="Both"
+                             HorizontalAlignment="Center"
+                             VerticalAlignment="Center">
+
+                        <!-- Контейнер для Canvas с фиксированным размером -->
+                        <Border x:Name="CanvasContainer" 
+                                Background="White" 
+                                BorderBrush="#ccc" 
+                                BorderThickness="1"
+                                Width="800" 
+                                Height="600">
+
+                            <Canvas x:Name="canvasVisualization" 
+                                    Width="800" 
+                                    Height="600"
+                                    ClipToBounds="True"
+                                    Background="White">
+                                <!-- Здесь будут отображаться контуры -->
+                            </Canvas>
+                        </Border>
+                    </Viewbox>
+
+                    <!-- Информация о масштабе -->
+                    <TextBlock Grid.Row="1" 
+                               x:Name="txtScaleInfo" 
+                               HorizontalAlignment="Right" 
+                               Margin="5" 
+                               FontSize="10" 
+                               Foreground="Gray"/>
+                </Grid>
+            </GroupBox>
+        </Grid>
+    </Grid>
+</Window>
