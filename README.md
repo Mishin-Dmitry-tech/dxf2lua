@@ -1,6 +1,4 @@
 
-<img width="1573" height="988" alt="pic1" src="https://github.com/user-attachments/assets/61da76f6-e741-4dce-a21e-01e8016c0019" />
-
 # DXF to Lua Converter
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
@@ -24,6 +22,9 @@
 - Lua код для построения найденных контуров
 
 Полученные описания контуров можно копировать и использолвать в своих lua скриптах
+##
+
+<img width="1573" height="988" alt="pic1" src="https://github.com/user-attachments/assets/61da76f6-e741-4dce-a21e-01e8016c0019" />
 
 ## Установка
 
